@@ -1,0 +1,63 @@
+{
+  "segment_id": "ITALY_APENNINES",
+  "name": "Apeninos Centrales (L'Aquila-Amatrice)",
+  "regime": "normal",
+  "fault_trace": {
+    "comment": "AUTO-GENERATED from GEM Global Active Faults DB (fault 'GEM fault (Normal)', slip_type=Normal, net_slip_rate=0.6 mm/yr, length=236km). Lower-confidence than the hand-curated US segments: regime from slip_type, recurrence from slip_rate via Wells&Coppersmith AD scaling (NOT paleoseismology), target_mag from length. V\u00eda A.",
+    "polyline_file": "italy_apennines_trace.json",
+    "p1": {
+      "lat": 42.4781,
+      "lon": 13.0453
+    },
+    "p2": {
+      "lat": 44.0209,
+      "lon": 11.154
+    }
+  },
+  "corridor_half_width_km": 40.0,
+  "catalog": {
+    "start": "1990-01-01",
+    "min_magnitude": 2.5,
+    "bbox": {
+      "minlat": 41.28,
+      "maxlat": 45.22,
+      "minlon": 9.95,
+      "maxlon": 14.25
+    }
+  },
+  "gnss": {
+    "frame": "IGS20",
+    "max_dist_km": 80.0,
+    "min_years": 6.0,
+    "fault_azimuth_deg": 318.9,
+    "fault_azimuth_comment": "from GEM fault trace endpoints (auto)"
+  },
+  "state": {
+    "v_ref_mm_yr": 0.6,
+    "v_ref_comment": "= GEM net_slip_rate (auto proxy for GNSS loading rate)",
+    "T_rec_years": 6696.0,
+    "years_since_last_major": 3348.0,
+    "recurrence_source": "AUTO-GENERATED from GEM Global Active Faults DB (fault 'GEM fault (Normal)', slip_type=Normal, net_slip_rate=0.6 mm/yr, length=236km). Lower-confidence than the hand-curated US segments: regime from slip_type, recurrence from slip_rate via Wells&Coppersmith AD scaling (NOT paleoseismology), target_mag from length. V\u00eda A.",
+    "lambda_A_daily": 0.95,
+    "tau_seismicity": 4.0,
+    "tau_gnss": 7.5,
+    "tau_sse": 10.9,
+    "tau_foreshock": 4.1,
+    "tau_strain": 6.3,
+    "baseline_window_days": 365
+  },
+  "etas_lite": {
+    "target_mag": 5.5,
+    "b_value": 1.0,
+    "decluster_ref_mag": 4.0,
+    "omori_c_days": 0.02,
+    "omori_p": 1.1,
+    "alpha": 0.9,
+    "trigger_min_mag": 4.5,
+    "train_end": "2015-01-01"
+  },
+  "gain": {
+    "log10_min": -1.0,
+    "log10_max": 1.7
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "segment_id": "CSZ-CENTRAL-OR",
+  "name": "Cascadia subduction zone, central Oregon coast segment",
+  "regime": "subduction",
+  "fault_trace": {
+    "comment": "APPROXIMATE, hand-digitized reference line, NOT survey-grade. CA GIS (used for SJC/Mojave) is California-only and does not cover Cascadia; no equivalent lightweight open trace service was found for the offshore megathrust in this session. Uses the onshore coastline as a proxy reference line for the locked-zone surface projection (physically defensible: all GNSS stations and crustal seismicity used by this model are onshore, and Cascadia literature routinely references distance-from-coast/deformation-front). 2 anchor points: Newport, OR (44.62,-124.05) to Astoria/mouth of Columbia, OR (46.19,-123.9). Revisit with a real slab-geometry model (e.g. McCrory et al. Slab2) before trusting distance/side calculations here.",
+    "p1": {
+      "lat": 46.19,
+      "lon": -123.9
+    },
+    "p2": {
+      "lat": 44.62,
+      "lon": -124.05
+    }
+  },
+  "corridor_half_width_km": 60.0,
+  "catalog": {
+    "start": "1990-01-01",
+    "min_magnitude": 2.0,
+    "bbox": {
+      "minlat": 43.5,
+      "maxlat": 47.0,
+      "minlon": -125.5,
+      "maxlon": -121.5
+    }
+  },
+  "gnss": {
+    "frame": "NA",
+    "max_dist_km": 80.0,
+    "min_years": 8.0,
+    "fault_azimuth_deg": 353.0,
+    "fault_azimuth_comment": "approximate, roughly coast-parallel N-S; PCA not available (no polyline_file)"
+  },
+  "state": {
+    "v_ref_mm_yr": 35.0,
+    "v_ref_comment": "Cascadia interseismic coupling produces larger coast-normal GNSS signal than a strike-slip corridor -- placeholder pending real calibration against published locking models",
+    "T_rec_years": 500.0,
+    "years_since_last_major": 326.0,
+    "recurrence_source": "The 1700-01-26 Cascadia full-margin M~9 rupture (dated via Japanese tsunami records + coastal subsidence/turbidite paleoseismology) is the last full-margin event -- 326 yr elapsed as of 2026. Recurrence for full-margin ruptures commonly cited ~500-540 yr (turbidite record, Goldfinger et al.), but segment-specific (central vs southern Cascadia) recurrence varies substantially and this figure is NOT sub-segment-specific -- treat as a rough regional anchor, wider uncertainty than either California segment.",
+    "lambda_A_daily": 0.95,
+    "tau_seismicity": 4.0,
+    "tau_gnss": 7.5,
+    "tau_sse": 10.9,
+    "lambda_K_daily": 0.9,
+    "baseline_window_days": 365,
+    "tau_foreshock": 4.1,
+    "tau_strain": 6.3
+  },
+  "etas_lite": {
+    "target_mag": 4.5,
+    "b_value": 1.0,
+    "decluster_ref_mag": 3.0,
+    "omori_c_days": 0.02,
+    "omori_p": 1.1,
+    "alpha": 0.9,
+    "trigger_min_mag": 3.5,
+    "train_end": "2010-01-01"
+  },
+  "gain": {
+    "log10_min": -1.0,
+    "log10_max": 1.7
+  }
+}

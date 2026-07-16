@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#05070a">
+<link rel="icon" type="image/png" sizes="512x512" href="/icon.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="shortcut icon" href="/favicon.ico">
+<title>MOCRE · Modelo Cavati de Red de Esfuerzo</title>
+<style>
+  :root{
+    --bg:#05070a;--ink:#edf4f8;--muted:#8999a3;--quiet:#50616b;--line:rgba(190,218,226,.14);
+    --glass:rgba(9,13,16,.66);--glass2:rgba(16,21,24,.78);--cyan:#70d7e8;--gold:#d7b36a;
+    --red:#ff5c6c;--green:#75d7a3;--steel:#aebbc1;--basalt:#0d1215;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth;background:var(--bg)}
+  body{margin:0;background:#05070a;color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",Roboto,sans-serif;line-height:1.5;overflow-x:hidden}
+  a{color:inherit;text-decoration:none}
+  button{font:inherit}
+  #field{position:fixed;inset:0;z-index:0;background:
+    radial-gradient(1100px 620px at 50% -12%,rgba(112,215,232,.14),transparent 62%),
+    radial-gradient(720px 620px at 88% 18%,rgba(215,179,106,.10),transparent 58%),
+    linear-gradient(180deg,#070a0d,#05070a 58%,#030405);pointer-events:none}
+  #noise{position:fixed;inset:0;z-index:1;opacity:.12;mix-blend-mode:screen;pointer-events:none;background-image:
+    linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px),
+    linear-gradient(0deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:26px 26px}
+  .shell{position:relative;z-index:2}
+  .nav{position:fixed;top:0;left:0;right:0;z-index:20;display:flex;align-items:center;justify-content:space-between;gap:18px;padding:14px clamp(18px,4vw,54px);background:linear-gradient(180deg,rgba(5,7,10,.88),rgba(5,7,10,.36),transparent);backdrop-filter:blur(18px)}
+  .brand{display:flex;align-items:center;gap:10px;min-width:142px}
+  .brand img{width:30px;height:30px;border-radius:8px;box-shadow:0 0 22px rgba(112,215,232,.18)}
+  .brand b{font-size:13px;letter-spacing:.24em;font-weight:760}
+  .links{display:flex;align-items:center;gap:4px;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.035);padding:4px}
+  .links a{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#b7c4c9;padding:8px 12px;border-radius:999px}
+  .links a:hover{background:rgba(255,255,255,.06);color:#fff}
+  .nav-actions{display:flex;gap:8px}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;border:1px solid var(--line);border-radius:999px;padding:10px 14px;background:rgba(255,255,255,.04);color:#e8f1f4;font-size:12px;font-weight:650;letter-spacing:.02em;cursor:pointer;transition:transform .18s,border-color .18s,background .18s}
+  .btn:hover{transform:translateY(-1px);border-color:rgba(112,215,232,.45);background:rgba(112,215,232,.09)}
+  .btn.primary{background:linear-gradient(135deg,rgba(112,215,232,.22),rgba(215,179,106,.14));border-color:rgba(112,215,232,.42)}
+  .hero{min-height:94vh;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(360px,.95fr);align-items:center;gap:34px;padding:118px clamp(20px,5vw,76px) 58px}
+  .eyebrow{display:flex;align-items:center;gap:10px;color:#9fb0b7;font-size:11px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:18px}
+  .eyebrow:before{content:"";width:42px;height:1px;background:linear-gradient(90deg,var(--cyan),transparent)}
+  h1{margin:0;max-width:900px;font-size:clamp(58px,10.5vw,150px);line-height:.82;letter-spacing:0;font-weight:780}
+  .h1-sub{display:block;color:rgba(237,244,248,.32);font-size:clamp(22px,4vw,58px);font-weight:520;line-height:1.02;margin-top:14px}
+  .lead{max-width:710px;color:#bdc9ce;font-size:clamp(16px,1.55vw,22px);margin:28px 0 0}
+  .hero-actions{display:flex;flex-wrap:wrap;gap:11px;margin-top:34px}
+  .signal{margin-top:42px;display:grid;grid-template-columns:repeat(4,minmax(110px,1fr));gap:10px;max-width:720px}
+  .metric{border-top:1px solid var(--line);padding-top:12px}
+  .metric b{display:block;font-size:22px;font-weight:740}
+  .metric span{display:block;font-size:11px;color:var(--muted);margin-top:2px}
+  .monolith{position:relative;min-height:590px;border:1px solid rgba(190,218,226,.16);background:linear-gradient(160deg,rgba(255,255,255,.065),rgba(255,255,255,.015));box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 50px 100px rgba(0,0,0,.42);overflow:hidden}
+  .monolith:before{content:"";position:absolute;inset:0;background:linear-gradient(115deg,transparent 0 42%,rgba(255,255,255,.13) 48%,transparent 55%);opacity:.42}
+  .monolith:after{content:"";position:absolute;left:18%;right:18%;bottom:-1px;height:1px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);box-shadow:0 0 32px rgba(112,215,232,.9)}
+  .lens{position:absolute;inset:0;width:100%;height:100%;display:block}
+  .readout{position:absolute;left:22px;right:22px;bottom:22px;padding:18px;border:1px solid rgba(190,218,226,.16);background:rgba(5,7,10,.74);backdrop-filter:blur(18px)}
+  .readout .label{font-size:10px;color:#88e1ef;letter-spacing:.16em;text-transform:uppercase}
+  .readout .value{font-size:28px;font-weight:760;margin-top:4px}
+  .readout p{font-size:12px;color:var(--muted);margin:6px 0 0}
+  .section{padding:82px clamp(20px,5vw,76px);position:relative}
+  .section.tight{padding-top:44px}
+  .section-head{display:grid;grid-template-columns:minmax(0,.9fr) minmax(260px,.55fr);gap:28px;align-items:end;margin-bottom:28px}
+  h2{font-size:clamp(34px,5vw,74px);line-height:.94;letter-spacing:0;margin:0;font-weight:760}
+  .section-head p{color:#acbbc1;font-size:15px;margin:0}
+  .band{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.012))}
+  .grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+  .panel{border:1px solid var(--line);background:rgba(255,255,255,.035);padding:22px;min-height:190px;position:relative;overflow:hidden}
+  .panel:before{content:"";position:absolute;inset:0 0 auto;height:1px;background:linear-gradient(90deg,transparent,rgba(112,215,232,.6),transparent);opacity:.5}
+  .panel h3{margin:0 0 12px;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#d8e6e9}
+  .panel p{margin:0;color:#9eafb6;font-size:14px}
+  .panel .num{font-size:40px;font-weight:760;margin:8px 0;color:#fff}
+  .tabbar{display:flex;flex-wrap:wrap;gap:8px;margin:26px 0 16px}
+  .tab{border:1px solid var(--line);background:rgba(255,255,255,.035);color:#b9c8cd;border-radius:999px;padding:9px 14px;cursor:pointer;font-size:12px;font-weight:650}
+  .tab.active{color:#fff;border-color:rgba(112,215,232,.55);background:rgba(112,215,232,.11)}
+  .tabpane{display:none;border:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.018));padding:26px;min-height:270px}
+  .tabpane.active{display:grid;grid-template-columns:minmax(0,.9fr) minmax(280px,.7fr);gap:30px;align-items:start}
+  .tabpane h3{font-size:28px;line-height:1.05;margin:0 0 14px}
+  .tabpane p,.tabpane li{color:#aebdc3;font-size:14px}
+  .tabpane ul{margin:0;padding-left:18px}
+  .process{display:grid;gap:10px}
+  .step{display:grid;grid-template-columns:38px 1fr;gap:12px;align-items:start;padding:13px;border:1px solid rgba(190,218,226,.12);background:rgba(0,0,0,.16)}
+  .step b{display:block;color:#fff}
+  .step span{font-size:12px;color:var(--muted)}
+  .orb{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;border:1px solid rgba(112,215,232,.35);color:#88e1ef;background:rgba(112,215,232,.08)}
+  .avaltix{display:grid;grid-template-columns:minmax(0,.55fr) minmax(0,1fr);gap:20px;align-items:stretch}
+  .logo-box{display:flex;flex-direction:column;justify-content:space-between;border:1px solid rgba(112,215,232,.24);background:linear-gradient(145deg,rgba(255,255,255,.08),rgba(255,255,255,.018));padding:24px;min-height:310px}
+  .av-brand{display:flex;align-items:center;gap:16px;margin-bottom:28px}
+  .av-mark{width:72px;height:72px;object-fit:contain;filter:drop-shadow(0 0 28px rgba(63,190,231,.28))}
+  .av-name{width:min(270px,70%);height:auto;object-fit:contain;filter:drop-shadow(0 0 28px rgba(63,190,231,.22))}
+  .source{font-size:11px;color:var(--quiet);margin-top:16px}
+  .lineage{display:flex;align-items:center;gap:20px;border:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.01));padding:20px 24px}
+  .lineage-mark{width:40px;height:40px;object-fit:contain;opacity:.85;filter:drop-shadow(0 0 16px rgba(63,190,231,.18))}
+  .lineage-text{flex:1;min-width:0}
+  .lineage-text b{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#9fb0b7}
+  .lineage-text p{margin:5px 0 0;color:#9eafb6;font-size:14px;line-height:1.5}
+  .lineage-text strong{color:#c8d4d9;font-weight:640}
+  .lineage-link{white-space:nowrap;font-size:12px;color:#88e1ef;border:1px solid var(--line);border-radius:999px;padding:9px 14px;transition:border-color .18s,background .18s}
+  .lineage-link:hover{border-color:rgba(112,215,232,.45);background:rgba(112,215,232,.08)}
+  @media(max-width:680px){.lineage{flex-direction:column;align-items:flex-start;gap:12px}}
+  .control-preview{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}
+  .mini{border:1px solid var(--line);background:#070a0d;padding:16px;min-height:132px}
+  .mini b{display:block;font-size:28px}
+  .mini span{color:var(--muted);font-size:12px}
+  .access{display:grid;grid-template-columns:minmax(0,.9fr) minmax(320px,.7fr);gap:16px}
+  .access-card{border:1px solid rgba(112,215,232,.26);background:linear-gradient(160deg,rgba(112,215,232,.09),rgba(255,255,255,.02));padding:24px}
+  .google{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:18px;border:1px solid rgba(255,255,255,.18);background:#f7fafb;color:#111820;border-radius:999px;padding:13px 16px;font-weight:700}
+  .dotg{width:18px;height:18px;border-radius:50%;background:conic-gradient(#4285f4 0 25%,#34a853 0 50%,#fbbc04 0 75%,#ea4335 0)}
+  footer{padding:42px clamp(20px,5vw,76px) 54px;border-top:1px solid var(--line);color:#77878e;font-size:12px;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .8s cubic-bezier(.2,.8,.2,1),transform .8s cubic-bezier(.2,.8,.2,1)}
+  .reveal.in{opacity:1;transform:none}
+  @media (max-width:980px){
+    .links{display:none}.hero{grid-template-columns:1fr;padding-top:96px}.monolith{min-height:420px}.section-head,.avaltix,.access,.tabpane.active{grid-template-columns:1fr}.grid{grid-template-columns:1fr}.signal{grid-template-columns:repeat(2,1fr)}.control-preview{grid-template-columns:1fr}
+  }
+  @media (max-width:560px){
+    .nav-actions .btn:not(.primary){display:none}.hero-actions{flex-direction:column}.btn{width:100%}.signal{grid-template-columns:1fr}.section{padding-left:18px;padding-right:18px}.tabpane{padding:18px}
+  }
+</style>
+</head>
+<body>
+<canvas id="field"></canvas><div id="noise"></div>
+<div class="shell">
+  <nav class="nav">
+    <a class="brand" href="#top"><img src="icon.png" alt="MOCRE"><b>MOCRE</b></a>
+    <div class="links">
+      <a href="#modelo">Modelo</a><a href="#linaje">Linaje</a><a href="control.html">Control</a><a href="#acceso">Acceso</a><a href="#contacto">Contacto</a>
+    </div>
+    <div class="nav-actions">
+      <a class="btn" href="control.html">Panel</a>
+      <a class="btn primary" href="globe/" target="_blank" rel="noopener">Globo vivo</a>
+    </div>
+  </nav>
+
+  <main id="top" class="hero">
+    <section class="reveal">
+      <div class="eyebrow">previsión sísmica probabilística</div>
+      <h1>MOCRE<span class="h1-sub">Tensión, memoria y recurrencia.</span></h1>
+      <p class="lead">MOCRE integra sismicidad, recurrencia, deformación y señales fuzzy para mostrar cómo cambia la probabilidad relativa frente a una línea base. No emite alarmas: expone estado, incertidumbre y trazabilidad.</p>
+      <div class="hero-actions">
+        <a class="btn primary" href="globe/" target="_blank" rel="noopener">Abrir globo 3D</a>
+        <a class="btn" href="map/" target="_blank" rel="noopener">Mapa MOCRE-1</a>
+        <a class="btn" href="control.html">Panel de control</a>
+        <a class="btn" href="access.html">Acceso gratuito</a>
+      </div>
+      <div class="signal">
+        <div class="metric"><b>7.250</b><span>micro-celdas globales</span></div>
+        <div class="metric"><b>15+</b><span>canales físicos y estadísticos</span></div>
+        <div class="metric"><b>IA1→IA3</b><span>linaje fuzzy Cavati</span></div>
+        <div class="metric"><b>30d</b><span>horizonte probabilístico de investigación</span></div>
+      </div>
+    </section>
+    <aside class="monolith reveal" aria-label="Membrana visual interactiva">
+      <canvas class="lens" id="lens"></canvas>
+      <div class="readout">
+        <div class="label">campo de esfuerzo · simulación</div>
+        <div class="value" id="readout">0.20 · estable</div>
+        <p>Red de nodos bajo carga: las isolíneas trazan el campo, los frentes dorados marcan rupturas. Es una simulación ilustrativa, no una señal operativa.</p>
+      </div>
+    </aside>
+  </main>
+
+  <section id="modelo" class="section band">
+    <div class="section-head reveal">
+      <h2>Un modelo legible, no solo un mapa.</h2>
+      <p>MOCRE-1 organiza sus salidas como ubicación, umbral objetivo y horizonte probabilístico. La magnitud típica es climatología histórica y la espera Poisson no es una cuenta atrás.</p>
+    </div>
+    <div class="tabbar reveal" role="tablist">
+      <button class="tab active" data-tab="origen">Origen</button>
+      <button class="tab" data-tab="funciona">Funcionamiento</button>
+      <button class="tab" data-tab="spec">Especificaciones</button>
+      <button class="tab" data-tab="limites">Límites</button>
+    </div>
+    <div class="tabpane active reveal" id="tab-origen">
+      <div>
+        <h3>Un método fuzzy que cambia de dominio.</h3>
+        <p>El núcleo es un motor de lógica difusa —universos, particiones, reglas Mamdani/Sugeno y validación fuera de muestra— del Dr. Cícero Romão Cavati, con arquitectura IA1→IA2→IA3. Ese motor se probó en producción sobre series probabilísticas; MOCRE traslada el patrón a la sismicidad.</p>
+        <p>La transferencia es de método, no de datos: celda geográfica, recurrencia, enjambre, deformación, carga y memoria de eventos ocupan el lugar del precio y el volumen.</p>
+      </div>
+      <div class="process">
+        <div class="step"><div class="orb">1</div><div><b>Método fuzzy Cavati</b><span>Universos, particiones, reglas y validación fuera de muestra (IA1→IA2→IA3).</span></div></div>
+        <div class="step"><div class="orb">2</div><div><b>Producción</b><span>Motor probado sobre series probabilísticas antes de MOCRE.</span></div></div>
+        <div class="step"><div class="orb">3</div><div><b>MOCRE</b><span>Red de esfuerzo experimental: coordenadas, objetivo y probabilidad por horizonte.</span></div></div>
+      </div>
+    </div>
+    <div class="tabpane reveal" id="tab-funciona">
+      <div>
+        <h3>La tasa base no desaparece: se refina.</h3>
+        <p>El sistema parte de una intensidad estadística tipo ETAS. Sobre esa base aplica un refinador fuzzy que lee estados físicos y señales de vecindad. La salida no dice "va a ocurrir"; dice cómo cambia el campo de probabilidad frente a una línea base conocida.</p>
+      </div>
+      <div class="process">
+        <div class="step"><div class="orb">μ</div><div><b>ETAS</b><span>Memoria de eventos, decaimiento temporal y tasa base por zona.</span></div></div>
+        <div class="step"><div class="orb">G</div><div><b>Ganancia fuzzy</b><span>Reglas Mamdani/Sugeno y particiones heredadas/adaptadas del linaje Cavati.</span></div></div>
+        <div class="step"><div class="orb">λ</div><div><b>λ = μ · G</b><span>Intensidad diaria refinada, convertida a ventanas de 30 días, 1 año y 10 años.</span></div></div>
+      </div>
+    </div>
+    <div class="tabpane reveal" id="tab-spec">
+      <div>
+        <h3>Lo que el usuario ve es la forma final del cálculo.</h3>
+        <ul>
+          <li>Ubicación: coordenadas, ciudad de referencia, región, país y traza cuando existe.</li>
+          <li>Valor: umbral objetivo; la magnitud típica es referencia histórica, no previsión.</li>
+          <li>Tiempo: probabilidad por horizonte y espera Poisson derivada, nunca fecha prevista.</li>
+          <li>Control: estado de datos, motor, veredicto CSEP, señales y refresco.</li>
+        </ul>
+      </div>
+      <div class="process">
+        <div class="step"><div class="orb">C</div><div><b>Carga</b><span>Recurrencia y acumulación normalizada sin ocultar saturaciones.</span></div></div>
+        <div class="step"><div class="orb">A</div><div><b>Actividad</b><span>Sismicidad, enjambres, foreshocks, Omori y anomalías locales.</span></div></div>
+        <div class="step"><div class="orb">K</div><div><b>Deformación</b><span>GNSS/SSE cuando existe señal utilizable, con honestidad por cobertura.</span></div></div>
+      </div>
+    </div>
+    <div class="tabpane reveal" id="tab-limites">
+      <div>
+        <h3>La credibilidad está en lo que no inventa.</h3>
+        <p>En varios segmentos MOCRE-1 todavía no es estadísticamente distinguible de ETAS-solo. La interfaz muestra ese veredicto en vez de esconderlo. En el globo global se separan probabilidad calibrada, señal extrema IA2 e intensidad actual.</p>
+      </div>
+      <div class="process">
+        <div class="step"><div class="orb">!</div><div><b>No es alarma pública</b><span>Es una lectura experimental y probabilística, no una orden operativa.</span></div></div>
+        <div class="step"><div class="orb">Δ</div><div><b>No predice fechas exactas</b><span>La ventana útil actual es de fondo y corto plazo probabilístico, no predicción puntual.</span></div></div>
+        <div class="step"><div class="orb">✓</div><div><b>Auditable</b><span>Los paneles enseñan datos, salidas y veredictos por eje.</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="linaje" class="section tight">
+    <div class="lineage reveal">
+      <img class="lineage-mark" src="avaltix-mark.png" alt="" aria-hidden="true">
+      <div class="lineage-text">
+        <b>Linaje</b>
+        <p>MOCRE hereda el motor de lógica difusa de producción de <strong>Avaltix</strong> (arquitectura IA1→IA2→IA3, Dr. Cícero Romão Cavati) y lo traslada de las series de mercado a las redes de esfuerzo sísmico.</p>
+      </div>
+      <a class="lineage-link" href="https://avaltix.io/" target="_blank" rel="noopener">avaltix.io ↗</a>
+    </div>
+  </section>
+
+  <section class="section band">
+    <div class="section-head reveal">
+      <h2>Panel de inspección del sistema.</h2>
+      <p>El control reúne globo, mapa, política de acceso y estado del modelo en una sola composición. Su función es enseñar qué está publicado, qué está pendiente y qué parte pertenece al cálculo.</p>
+    </div>
+    <div class="control-preview reveal">
+      <div class="mini"><b>Globo</b><span>micro-puntos globales · señales fuzzy · señales extremas</span></div>
+      <div class="mini"><b>Mapa</b><span>segmentos MOCRE-1 · coordenadas · CSEP</span></div>
+      <div class="mini"><b>Web</b><span>entrada pública · producto · documentación</span></div>
+      <div class="mini"><b>Acceso</b><span>gateway OAuth pendiente · rate limit previsto</span></div>
+    </div>
+    <div style="margin-top:18px"><a class="btn primary" href="control.html">Abrir panel de control</a></div>
+  </section>
+
+  <section id="acceso" class="section">
+    <div class="access reveal">
+      <div>
+        <h2>Consulta pública, acceso identificado.</h2>
+        <p class="lead" style="font-size:17px">El globo y el mapa se pueden consultar sin pago. Las funciones identificadas quedarán detrás de OAuth, límites por usuario/IP y contacto visible cuando el gateway esté activo.</p>
+      </div>
+      <div class="access-card">
+        <h3>Acceso MOCRE</h3>
+        <p style="color:#aebdc3">Uso científico y educativo · gateway OAuth en preparación · límites por minuto antes de endpoints caros.</p>
+        <a class="btn primary" style="margin-top:18px" href="access.html">Ver estado de acceso</a>
+        <div class="source">Límites sugeridos: 60 vistas/min, 12 consultas/min, 3 exportaciones/hora. Ajustable en gateway.</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contacto" class="section tight">
+    <div class="grid reveal">
+      <div class="panel"><h3>Contacto</h3><p>Para colaboración, revisión científica o integración institucional.</p><p style="margin-top:12px"><a class="btn" href="mailto:contacto@avaltix.io?subject=MOCRE">contacto@avaltix.io</a></p></div>
+      <div class="panel"><h3>Mapa</h3><p>Segmentos, coordenadas, umbral objetivo, horizonte y diagnóstico CSEP exploratorio.</p><p style="margin-top:12px"><a class="btn" href="map/" target="_blank" rel="noopener">Abrir mapa</a></p></div>
+      <div class="panel"><h3>Globo</h3><p>Micro-puntos globales con ciudad/país de referencia y señales fuzzy.</p><p style="margin-top:12px"><a class="btn" href="globe/" target="_blank" rel="noopener">Abrir globo</a></p></div>
+    </div>
+  </section>
+
+  <footer>
+    <span>MOCRE · Modelo Cavati de Red de Esfuerzo</span>
+    <span>Basado en el linaje fuzzy Cavati y la arquitectura de producción Avaltix.</span>
+  </footer>
+</div>
+
+<script>
+const canvas = document.getElementById('field');
+const ctx = canvas.getContext('2d');
+const lens = document.getElementById('lens');
+const lctx = lens.getContext('2d');
+const readout = document.getElementById('readout');
+let W=0,H=0,DPR=1,mx=.58,my=.42,energy=.31;
+function size(){
+  DPR = Math.min(2, window.devicePixelRatio || 1);
+  W = window.innerWidth; H = window.innerHeight;
+  canvas.width = W*DPR; canvas.height = H*DPR; canvas.style.width=W+'px'; canvas.style.height=H+'px';
+  ctx.setTransform(DPR,0,0,DPR,0,0);
+  const r = lens.getBoundingClientRect();
+  lens.width = Math.max(1,r.width*DPR); lens.height = Math.max(1,r.height*DPR);
+  lctx.setTransform(DPR,0,0,DPR,0,0);
+}
+window.addEventListener('resize', size);
+window.addEventListener('pointermove', e=>{ mx=e.clientX/W; my=e.clientY/H; energy=Math.min(1,Math.max(.08,.18+mx*.34+(1-my)*.22)); });
+function drawField(t){
+  ctx.clearRect(0,0,W,H);
+  ctx.globalCompositeOperation='lighter';
+  for(let y=0;y<H;y+=18){
+    ctx.beginPath();
+    for(let x=0;x<W;x+=18){
+      const dx=x/W-mx, dy=y/H-my;
+      const pull=Math.exp(-(dx*dx+dy*dy)*14);
+      const wave=Math.sin(x*.012+t*.0008)+Math.sin(y*.017-t*.0007);
+      const yy=y+wave*5+pull*24*Math.sin(t*.002+x*.02);
+      if(x===0)ctx.moveTo(x,yy);else ctx.lineTo(x,yy);
+    }
+    ctx.strokeStyle='rgba(112,215,232,'+(0.015+energy*.035)+')';
+    ctx.lineWidth=1;
+    ctx.stroke();
+  }
+  for(let i=0;i<180;i++){
+    const a=i*2.399, rr=(i%37)/37;
+    const x=(.5+Math.cos(a+t*.00008)*(rr*.52))*W;
+    const y=(.48+Math.sin(a-t*.00006)*(rr*.34))*H;
+    const d=Math.hypot(x/W-mx,y/H-my);
+    const alpha=Math.max(0,.18-d*.28);
+    ctx.fillStyle='rgba(215,179,106,'+alpha+')';
+    ctx.fillRect(x,y,1.4,1.4);
+  }
+  ctx.globalCompositeOperation='source-over';
+}
+// ---- red de esfuerzo con ruptura viva (panel derecho del hero) ----
+let scene=null;
+function buildScene(w,h){
+  const cols=5, rows=6, nodes=[];
+  for(let j=0;j<rows;j++)for(let i=0;i<cols;i++){
+    const jx=Math.sin(i*12.9+j*3.7)*0.28, jy=Math.cos(i*4.1+j*7.3)*0.28;
+    nodes.push({ox:(i+0.5+jx)/cols, oy:(j+0.5+jy)/rows, ph:i*0.7+j*1.3});
+  }
+  const edges=[];
+  for(let a=0;a<nodes.length;a++)for(let b=a+1;b<nodes.length;b++){
+    if(Math.hypot(nodes[a].ox-nodes[b].ox, nodes[a].oy-nodes[b].oy)<0.29) edges.push([a,b]);
+  }
+  scene={w,h,nodes,edges,ruptures:[],
+    pulses:[{e:0,t:.1},{e:edges.length>>1,t:.5},{e:Math.max(0,edges.length-1),t:.8}],
+    nextRupture:1.2};
+}
+function drawLens(t){
+  const r=lens.getBoundingClientRect(), w=r.width, h=r.height;
+  if(w<2||h<2) return;
+  if(!scene || Math.abs(scene.w-w)>1 || Math.abs(scene.h-h)>1) buildScene(w,h);
+  const ts=t*0.001;
+  lctx.clearRect(0,0,w,h);
+  const fx=(0.34+mx*0.32)*w + Math.sin(ts*0.5)*w*0.04;
+  const fy=(0.32+(1-my)*0.28)*h + Math.cos(ts*0.42)*h*0.04;
+  // 1) isolíneas del campo de esfuerzo alrededor del foco
+  const rings=9, seg=54;
+  for(let k=1;k<=rings;k++){
+    const base=(k/rings)*Math.min(w,h)*0.6;
+    lctx.beginPath();
+    for(let s=0;s<=seg;s++){
+      const a=s/seg*Math.PI*2;
+      const warp=Math.sin(a*3+ts*0.9+k*0.5)*6+Math.cos(a*5-ts*0.7)*4*energy+k*2.1;
+      const x=fx+Math.cos(a)*(base+warp), y=fy+Math.sin(a)*(base+warp)*0.85;
+      s?lctx.lineTo(x,y):lctx.moveTo(x,y);
+    }
+    lctx.strokeStyle='rgba(112,215,232,'+(0.05+0.10*(1-k/rings)+energy*0.05).toFixed(3)+')';
+    lctx.lineWidth=k===1?1.4:1; lctx.stroke();
+  }
+  // 2) posiciones vivas de los nodos
+  const NP=scene.nodes.map(n=>({x:(n.ox+Math.sin(ts*0.6+n.ph)*0.006)*w, y:(n.oy+Math.cos(ts*0.5+n.ph)*0.006)*h}));
+  // 3) aristas de la red
+  lctx.lineWidth=1; lctx.strokeStyle='rgba(174,203,209,0.08)';
+  for(const [a,b] of scene.edges){ lctx.beginPath();lctx.moveTo(NP[a].x,NP[a].y);lctx.lineTo(NP[b].x,NP[b].y);lctx.stroke(); }
+  // 4) pulsos viajando por las aristas
+  for(const p of scene.pulses){
+    p.t+=0.006+energy*0.004; if(p.t>1){p.t=0;p.e=(p.e+5)%scene.edges.length;}
+    const [a,b]=scene.edges[p.e]||[0,0];
+    lctx.fillStyle='rgba(170,238,246,0.85)';
+    lctx.beginPath();lctx.arc(NP[a].x+(NP[b].x-NP[a].x)*p.t, NP[a].y+(NP[b].y-NP[a].y)*p.t,1.6,0,7);lctx.fill();
+  }
+  // 5) rupturas periódicas con frente de onda
+  if(ts>scene.nextRupture){
+    scene.nextRupture=ts+2.6+Math.random()*2.0;
+    const n=scene.nodes[(Math.random()*scene.nodes.length)|0];
+    scene.ruptures.push({x:n.ox*w,y:n.oy*h,t0:ts});
+    energy=Math.min(1,energy+0.3);
+  }
+  scene.ruptures=scene.ruptures.filter(rp=>ts-rp.t0<2.2);
+  for(const rp of scene.ruptures){
+    const age=ts-rp.t0, k=age/2.2;
+    lctx.strokeStyle='rgba(215,179,106,'+(0.5*(1-k)).toFixed(3)+')';
+    lctx.lineWidth=2*(1-k)+0.4;
+    lctx.beginPath();lctx.arc(rp.x,rp.y,k*Math.min(w,h)*0.68,0,7);lctx.stroke();
+    const cf=Math.max(0,1-age*2);
+    if(cf>0){lctx.fillStyle='rgba(255,208,150,'+cf.toFixed(3)+')';lctx.beginPath();lctx.arc(rp.x,rp.y,3.4,0,7);lctx.fill();}
+  }
+  // 6) nodos (estaciones), se encienden cerca de una ruptura
+  for(const q of NP){
+    let near=1e9; for(const rp of scene.ruptures) near=Math.min(near,Math.hypot(q.x-rp.x,q.y-rp.y));
+    const hot=Math.max(0,1-near/70);
+    lctx.fillStyle=hot>0.05?'rgba(255,200,130,'+(0.5+hot*0.5).toFixed(3)+')':'rgba(174,203,209,0.5)';
+    lctx.beginPath();lctx.arc(q.x,q.y,1.5+hot*2.4,0,7);lctx.fill();
+  }
+  // 7) halo del foco
+  const hg=lctx.createRadialGradient(fx,fy,0,fx,fy,46);
+  hg.addColorStop(0,'rgba(170,238,246,'+(0.26+energy*0.24).toFixed(3)+')');hg.addColorStop(1,'rgba(0,0,0,0)');
+  lctx.fillStyle=hg;lctx.beginPath();lctx.arc(fx,fy,46,0,7);lctx.fill();
+  // relajación del estado hacia una base según el puntero
+  energy+=((0.2+mx*0.32+(1-my)*0.18)-energy)*0.02;
+  const st=energy>.62?'ruptura':energy>.4?'tensión alta':energy>.24?'observación':'estable';
+  readout.textContent=energy.toFixed(2)+' · '+st;
+}
+const RM=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+function tick(t){ drawField(t); drawLens(t); if(!RM) requestAnimationFrame(tick); }
+size();
+if(RM){ drawField(0); drawLens(16); } else { requestAnimationFrame(tick); }
+
+document.querySelectorAll('.tab').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.tabpane').forEach(p=>p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-'+btn.dataset.tab).classList.add('active');
+  });
+});
+const io = new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')}),{threshold:.12});
+document.querySelectorAll('.reveal').forEach(e=>io.observe(e));
+</script>
+</body>
+</html>

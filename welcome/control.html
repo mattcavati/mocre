@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#05070a">
+<link rel="icon" type="image/png" sizes="512x512" href="/icon.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="shortcut icon" href="/favicon.ico">
+<title>MOCRE · Panel de control</title>
+<style>
+  :root{--bg:#05070a;--ink:#edf4f8;--muted:#8a9ba3;--line:rgba(190,218,226,.14);--cyan:#70d7e8;--gold:#d7b36a;--green:#75d7a3;--red:#ff5c6c}
+  *{box-sizing:border-box}
+  html,body{margin:0;min-height:100%;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+  body{background:radial-gradient(1200px 640px at 52% -20%,rgba(112,215,232,.16),transparent 62%),linear-gradient(180deg,#071014,#05070a)}
+  a{color:inherit;text-decoration:none}
+  .top{position:sticky;top:0;z-index:10;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px clamp(18px,4vw,46px);background:rgba(5,7,10,.76);backdrop-filter:blur(18px);border-bottom:1px solid var(--line)}
+  .brand{display:flex;align-items:center;gap:10px}.brand img{width:30px;height:30px;border-radius:8px}.brand b{letter-spacing:.18em;font-size:13px}
+  .actions{display:flex;gap:8px;flex-wrap:wrap}
+  .btn{display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.04);padding:9px 13px;font-size:12px;font-weight:650}
+  .btn.primary{border-color:rgba(112,215,232,.46);background:rgba(112,215,232,.1)}
+  main{padding:28px clamp(18px,4vw,46px) 46px}
+  .hero{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:14px;align-items:stretch;margin-bottom:14px}
+  .title{border:1px solid var(--line);background:linear-gradient(135deg,rgba(255,255,255,.055),rgba(255,255,255,.018));padding:24px;min-height:190px}
+  h1{font-size:clamp(38px,6vw,82px);line-height:.9;margin:0;letter-spacing:0}
+  .title p{max-width:780px;color:#aebdc3;font-size:15px;margin:18px 0 0}
+  .status{display:grid;gap:10px}
+  .lamp{border:1px solid var(--line);background:rgba(0,0,0,.18);padding:14px}
+  .lamp span{font-size:10px;color:var(--muted);letter-spacing:.14em;text-transform:uppercase}.lamp b{display:block;font-size:28px;margin-top:4px}
+  .ok b{color:var(--green)}.warn b{color:var(--gold)}
+  .grid{display:grid;grid-template-columns:1.15fr .85fr;gap:14px}
+  .frame{border:1px solid var(--line);background:#030507;min-height:560px;position:relative;overflow:hidden}
+  .frame iframe{width:100%;height:100%;min-height:560px;border:0;background:#030507}
+  .frame .cap{position:absolute;left:12px;top:12px;z-index:2;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#b9c9cf;background:rgba(5,7,10,.7);border:1px solid var(--line);backdrop-filter:blur(10px);padding:7px 10px;border-radius:999px}
+  .side{display:grid;gap:14px}
+  .card{border:1px solid var(--line);background:rgba(255,255,255,.035);padding:18px}
+  .card h2{font-size:13px;letter-spacing:.14em;text-transform:uppercase;margin:0 0 12px;color:#d8e6e9}
+  .card p,.card li{color:#a7b7be;font-size:13px;line-height:1.55}
+  .card ul{margin:0;padding-left:18px}.card p{margin:0}
+  .pipe{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:12px}
+  .step{border:1px solid rgba(190,218,226,.12);padding:12px;background:rgba(0,0,0,.18);min-height:96px}.step b{display:block}.step span{font-size:11px;color:var(--muted)}
+  .maprow{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
+  .smallframe{min-height:360px}.smallframe iframe{min-height:360px}
+  @media(max-width:1050px){.hero,.grid,.maprow{grid-template-columns:1fr}.pipe{grid-template-columns:1fr 1fr}.frame,.frame iframe{min-height:460px}}
+  @media(max-width:560px){.actions{width:100%}.btn{flex:1}.pipe{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="index.html"><img src="icon.png" alt="MOCRE"><b>MOCRE CONTROL</b></a>
+  <nav class="actions">
+    <a class="btn" href="index.html">Inicio</a>
+    <a class="btn" href="map/" target="_blank" rel="noopener">Mapa</a>
+    <a class="btn primary" href="globe/" target="_blank" rel="noopener">Globo vivo</a>
+    <a class="btn" href="access.html">Acceso</a>
+  </nav>
+</header>
+<main>
+  <section class="hero">
+    <div class="title">
+      <h1>El sistema completo en una sola sala.</h1>
+      <p>Este panel junta el globo global, el mapa MOCRE-1, la capa de acceso y el estado conceptual del motor. La publicación actual sirve vistas estáticas aisladas; el gateway de OAuth/rate-limit queda señalado como pieza pendiente.</p>
+    </div>
+    <div class="status">
+      <div class="lamp ok"><span>globo</span><b>publicado</b></div>
+      <div class="lamp ok"><span>mapa</span><b>publicado</b></div>
+      <div class="lamp warn"><span>gateway acceso</span><b>pendiente</b></div>
+    </div>
+  </section>
+
+  <section class="grid">
+    <div class="frame">
+      <div class="cap">globo 3D · micro-puntos globales</div>
+      <iframe src="globe/" title="Globo MOCRE"></iframe>
+    </div>
+    <aside class="side">
+      <div class="card">
+        <h2>Flujo del motor</h2>
+        <p>La lectura pública se construye como una cadena auditable: catálogo global, celdas, señales fuzzy, calibración y salida temporal.</p>
+        <div class="pipe">
+          <div class="step"><b>Datos</b><span>USGS/global, series por segmento y celdas.</span></div>
+          <div class="step"><b>Estado</b><span>A, C, K, F y anomalías medibles.</span></div>
+          <div class="step"><b>Base</b><span>ETAS o tasa estadística local.</span></div>
+          <div class="step"><b>Fuzzy</b><span>Reglas Cavati IA1→IA3 / Mamdani.</span></div>
+          <div class="step"><b>Salida</b><span>lugar, Richter y ventana temporal.</span></div>
+        </div>
+      </div>
+      <div class="card">
+        <h2>Acceso público</h2>
+        <ul>
+          <li>OAuth para identificar usuario sin cobrar entrada.</li>
+          <li>Rate limit por sesión e IP antes de endpoints caros.</li>
+          <li>Contacto visible para uso académico, prensa o colaboración.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h2>Honestidad operacional</h2>
+        <p>El mapa de segmentos conserva veredictos CSEP. El globo muestra ciudad/país de referencia, probabilidad calibrada, señales extremas y señales fuzzy sin presentarlas como certeza determinista.</p>
+      </div>
+    </aside>
+  </section>
+
+  <section class="maprow">
+    <div class="frame smallframe">
+      <div class="cap">mapa MOCRE-1 · segmentos</div>
+      <iframe src="map/" title="Mapa MOCRE-1"></iframe>
+    </div>
+    <div class="card">
+      <h2>Checklist de publicación</h2>
+      <ul>
+        <li>Servir endpoints de cálculo detrás del gateway de acceso.</li>
+        <li>Configurar `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `SESSION_SECRET` y dominio público.</li>
+        <li>Aplicar límites por usuario: vistas, consultas, exportaciones y contacto.</li>
+        <li>Exponer `/contact` o formulario con correo verificado.</li>
+      </ul>
+    </div>
+  </section>
+</main>
+</body>
+</html>

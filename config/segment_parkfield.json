@@ -1,0 +1,64 @@
+{
+  "segment_id": "SAF-PARKFIELD",
+  "name": "San Andreas fault zone, Parkfield section, Central California",
+  "regime": "transform",
+  "fault_trace": {
+    "comment": "Real mapped trace, San Andreas fault zone Parkfield section, from CA GIS GeoscientificInformation/Fault_Lines/MapServer/3, fetched 2026-07-03. Most heavily instrumented fault section in the world (site of the 1985-1993 Parkfield Earthquake Prediction Experiment -- a documented FAILED point-prediction attempt, directly relevant to this project's design requirements R1-R4).",
+    "polyline_file": "parkfield_trace.json",
+    "p1": {
+      "lat": 35.96,
+      "lon": -120.5
+    },
+    "p2": {
+      "lat": 35.73,
+      "lon": -120.29
+    }
+  },
+  "corridor_half_width_km": 15.0,
+  "catalog": {
+    "start": "1990-01-01",
+    "min_magnitude": 1.5,
+    "bbox": {
+      "minlat": 35.4,
+      "maxlat": 36.3,
+      "minlon": -120.9,
+      "maxlon": -119.9
+    }
+  },
+  "gnss": {
+    "frame": "NA",
+    "max_dist_km": 30.0,
+    "min_years": 6.0,
+    "fault_azimuth_deg": 321.0,
+    "fault_azimuth_comment": "PCA strike of the real trace"
+  },
+  "state": {
+    "v_ref_mm_yr": 25.0,
+    "T_rec_years": 22.0,
+    "years_since_last_major": 22.0,
+    "recurrence_source": "Historical M~6 characteristic-earthquake sequence: 1857, 1881, 1901, 1922, 1934, 1966, 2004-09-28 (the famous ~22yr average recurrence that motivated the 1985-1993 USGS Parkfield Earthquake Prediction Experiment -- which failed to predict the actual 2004 event within its forecast window, a well-documented case study). T_rec=22yr, last event 2004 -> ~22yr elapsed as of 2026 (right at the historical average, characteristically 'due').",
+    "lambda_A_daily": 0.95,
+    "tau_seismicity": 4.0,
+    "tau_gnss": 7.5,
+    "tau_sse": 10.9,
+    "lambda_K_daily": 0.9,
+    "baseline_window_days": 365,
+    "tau_foreshock": 4.1,
+    "tau_strain": 6.3
+  },
+  "etas_lite": {
+    "target_mag": 3.5,
+    "target_mag_comment": "Lower than SJC/Mojave (4.5) -- Parkfield's characteristic events are ~M6, but the corridor is small (15km) and 4.5+ events are too rare here in the catalog window alone; 3.5 trades operational relevance for event count, a deliberate documented choice per cluster_archetypes.py's own caveat about this tradeoff.",
+    "b_value": 1.0,
+    "decluster_ref_mag": 2.5,
+    "omori_c_days": 0.02,
+    "omori_p": 1.1,
+    "alpha": 0.9,
+    "trigger_min_mag": 3.0,
+    "train_end": "2010-01-01"
+  },
+  "gain": {
+    "log10_min": -1.0,
+    "log10_max": 1.7
+  }
+}

@@ -1,0 +1,17 @@
+# Normaliza finales de línea: LF en el repo para todo el texto.
+* text=auto eol=lf
+
+# Binarios (sin normalización de EOL ni diff textual)
+*.png binary
+*.ico binary
+*.jpg binary
+*.jpeg binary
+*.gz  binary
+*.npz binary
+
+# Mantén la barra de lenguajes de GitHub centrada en el código real,
+# no en los grandes JSON de datos generados.
+globe/globe_data.json linguist-generated
+map/world_land.json   linguist-generated
+config/*_trace.json   linguist-generated
+docs/DEVLOG.md        linguist-documentation

@@ -1,0 +1,63 @@
+{
+  "segment_id": "SAF-MOJAVE",
+  "name": "San Andreas fault zone, Mojave section, Southern California",
+  "regime": "transform",
+  "fault_trace": {
+    "comment": "Real mapped trace, San Andreas fault zone Mojave section, from CA GIS GeoscientificInformation/Fault_Lines/MapServer/3, fetched 2026-07-03. Site of the 1857 Fort Tejon M~7.9 rupture.",
+    "polyline_file": "mojave_trace.json",
+    "p1": {
+      "lat": 34.73,
+      "lon": -118.6
+    },
+    "p2": {
+      "lat": 34.29,
+      "lon": -117.5
+    }
+  },
+  "corridor_half_width_km": 25.0,
+  "catalog": {
+    "start": "1990-01-01",
+    "min_magnitude": 2.0,
+    "bbox": {
+      "minlat": 34.0,
+      "maxlat": 35.1,
+      "minlon": -119.0,
+      "maxlon": -117.2
+    }
+  },
+  "gnss": {
+    "frame": "NA",
+    "max_dist_km": 40.0,
+    "min_years": 8.0,
+    "fault_azimuth_deg": 295.0,
+    "fault_azimuth_comment": "placeholder, recompute by PCA once trace is loaded (see fault_strike_azimuth_deg)"
+  },
+  "state": {
+    "v_ref_mm_yr": 25.0,
+    "T_rec_years": 150.0,
+    "years_since_last_major": 169.0,
+    "recurrence_source": "1857 Fort Tejon M~7.9 rupture (last major event on this section). Recurrence estimates vary by study/sub-segment: Wallace Creek/Carrizo geological slip-rate method ~260-340 yr; trenching interval to prior event (~1480) ~370-380 yr; UCERF-style Mojave-specific paleoseismic recurrence commonly cited ~150-200 yr for M7+. Used 150 yr (lower/more conservative end) pending a dedicated re-check -- WIDER UNCERTAINTY than SJC's Hog Lake figure, flag this when interpreting C_state for this segment.",
+    "lambda_A_daily": 0.95,
+    "tau_seismicity": 4.0,
+    "tau_gnss": 7.5,
+    "tau_sse": 10.9,
+    "lambda_K_daily": 0.9,
+    "baseline_window_days": 365,
+    "tau_foreshock": 4.1,
+    "tau_strain": 6.3
+  },
+  "etas_lite": {
+    "target_mag": 4.5,
+    "b_value": 1.0,
+    "decluster_ref_mag": 3.0,
+    "omori_c_days": 0.02,
+    "omori_p": 1.1,
+    "alpha": 0.9,
+    "trigger_min_mag": 3.5,
+    "train_end": "2010-01-01"
+  },
+  "gain": {
+    "log10_min": -1.0,
+    "log10_max": 1.7
+  }
+}

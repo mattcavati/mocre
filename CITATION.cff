@@ -1,0 +1,27 @@
+cff-version: 1.2.0
+message: "If you use MOCRE-1 in academic or applied work, please cite it as below."
+title: "MOCRE-1 — Modelo Cavati de Red de Esfuerzo"
+abstract: >-
+  A hybrid statistical–fuzzy earthquake forecasting model. It refines an ETAS
+  baseline intensity with a thin fuzzy gain (lambda = mu_ETAS * G) computed over
+  physical and statistical stress-network signals — seismicity, recurrence,
+  deformation, Coulomb transfer and induced-seismicity fluid pressure — and is
+  benchmarked against its own null hypothesis with CSEP-style paired tests.
+type: software
+authors:
+  - family-names: Cavati
+    given-names: Matt
+    website: "https://mocre.es"
+repository-code: "https://github.com/mattcavati/mocre"
+url: "https://mocre.es"
+keywords:
+  - earthquake-forecasting
+  - fuzzy-logic
+  - ETAS
+  - seismology
+  - CSEP
+  - probabilistic-forecasting
+  - induced-seismicity
+license: Apache-2.0
+version: "0.1.0"
+date-released: "2026-07-10"

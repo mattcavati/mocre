@@ -1,0 +1,61 @@
+{
+  "segment_id": "SJC-ANZA",
+  "name": "San Jacinto fault zone (Anza corridor), Southern California",
+  "regime": "transform",
+  "fault_trace": {
+    "comment": "Real mapped trace, San Jacinto fault zone Anza section (incl. Clark/Hog Lake), from CA GIS GeoscientificInformation/Fault_Lines/MapServer/3, fetched 2026-07-03. Replaces the earlier 2-point hand-picked approximation (kept below as p1/p2 fallback only).",
+    "polyline_file": "sjc_anza_trace.json",
+    "p1": {
+      "lat": 34.3,
+      "lon": -117.5
+    },
+    "p2": {
+      "lat": 33.0,
+      "lon": -116.0
+    }
+  },
+  "corridor_half_width_km": 25.0,
+  "catalog": {
+    "start": "1990-01-01",
+    "min_magnitude": 2.0,
+    "bbox": {
+      "minlat": 32.8,
+      "maxlat": 34.5,
+      "minlon": -117.8,
+      "maxlon": -115.7
+    }
+  },
+  "gnss": {
+    "frame": "NA",
+    "max_dist_km": 40.0,
+    "min_years": 8.0,
+    "fault_azimuth_deg": 309.0,
+    "fault_azimuth_comment": "PCA strike of the real Anza-section trace (was 305 deg hand-estimate)"
+  },
+  "state": {
+    "v_ref_mm_yr": 12.0,
+    "T_rec_years": 254.0,
+    "years_since_last_major": 227.0,
+    "recurrence_source": "Hog Lake paleoseismic trenching on the Clark fault (Anza section): 3 surface-rupturing M~7.0-7.5 events c. 1210, 1530, ~1795-1800 CE; recurrence ~250-254 yr, last event ~1795-1800 -> ~227 yr elapsed as of 2026. Sourced 2026-07-03 (WebSearch), not re-verified against the primary paleoseismology paper (Rockwell/Onderdonk-type Hog Lake studies) -- treat as literature-grade estimate, not a re-derived one.",
+    "lambda_A_daily": 0.95,
+    "tau_seismicity": 4.0,
+    "tau_gnss": 7.5,
+    "baseline_window_days": 365,
+    "tau_sse": 10.9,
+    "tau_foreshock": 4.1,
+    "tau_strain": 6.3
+  },
+  "etas_lite": {
+    "target_mag": 4.5,
+    "b_value": 1.0,
+    "decluster_ref_mag": 3.0,
+    "omori_c_days": 0.02,
+    "omori_p": 1.1,
+    "alpha": 0.9,
+    "trigger_min_mag": 3.5
+  },
+  "gain": {
+    "log10_min": -1.0,
+    "log10_max": 1.7
+  }
+}

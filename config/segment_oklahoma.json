@@ -1,0 +1,75 @@
+{
+  "segment_id": "OK-PAWNEE-PRAGUE",
+  "name": "Central Oklahoma induced seismicity zone (Pawnee-Prague corridor)",
+  "regime": "induced",
+  "fault_trace": {
+    "comment": "APPROXIMATE reference point, NOT a mapped fault trace. Induced seismicity here reactivates multiple pre-existing basement strike-slip faults (Wilzetta fault near Prague per Keranen et al. 2013 Geology; unnamed structures near Pawnee per Yeck et al. 2017 GRL) -- the physical mechanism is proximity to high-volume disposal wells, not distance to one mapped surface trace, so 'distance to trace' here is really 'distance to the composite injection zone'. Reference point centered on Pawnee (site of the 2016-09-03 M5.8, largest in Oklahoma history, and of the dedicated OK01-OK08 GNSS network installed in response). Prague (2011-11-06 M5.7, the first well-documented case linking a specific well to a specific rupture, Keranen et al. 2013) falls within the wider corridor to the south.",
+    "p1": {
+      "lat": 36.45,
+      "lon": -96.9
+    },
+    "p2": {
+      "lat": 35.45,
+      "lon": -96.7
+    }
+  },
+  "corridor_half_width_km": 70.0,
+  "catalog": {
+    "start": "2005-01-01",
+    "start_comment": "Starts before the swarm (background ~1990-2008 was near-zero, per Keranen et al.) to give ETAS/state a real quiet baseline before the induced sequence begins ~2009.",
+    "min_magnitude": 2.0,
+    "bbox": {
+      "minlat": 34.8,
+      "maxlat": 37.0,
+      "minlon": -98.0,
+      "maxlon": -95.5
+    }
+  },
+  "gnss": {
+    "frame": "NA",
+    "max_dist_km": 90.0,
+    "min_years": 3.0,
+    "min_years_comment": "Lower than other segments -- the dedicated OK01-OK08 network only exists since Nov-2016 (installed BECAUSE of Pawnee), so a strict 5-8yr filter would exclude the most relevant stations.",
+    "fault_azimuth_deg": 330.0,
+    "fault_azimuth_comment": "approximate, NW-SE trend of the Nemaha Ridge/Wilzetta fault system"
+  },
+  "state": {
+    "v_ref_mm_yr": 2.0,
+    "v_ref_comment": "Intraplate Oklahoma has near-zero natural tectonic loading (this is the whole point -- seismicity here is NOT driven by GNSS-measurable tectonic strain, it's driven by fluid injection). C/GNSS-loading formula is expected to stay flat/uninformative for this segment; F (fluid pressure) is the mechanism that matters here, not C.",
+    "T_rec_years": 500.0,
+    "years_since_last_major": 15.0,
+    "recurrence_source": "No meaningful natural recurrence cycle exists for induced seismicity -- placeholder values only, C_state should not be trusted as a real precursor signal for this segment (documented limitation, not an oversight). Real hazard here is captured by F (injection pressure/volume anomaly), not C.",
+    "lambda_A_daily": 0.95,
+    "tau_seismicity": 4.0,
+    "tau_gnss": 7.5,
+    "tau_sse": 10.9,
+    "lambda_K_daily": 0.9,
+    "tau_fluid": 3.0,
+    "lambda_F_daily": 0.93,
+    "lambda_F_comment": "Slower decay than K (SSE, days-weeks) but faster than C -- injection-driven pore pressure diffusion operates on a weeks-to-months timescale per the induced-seismicity literature (Keranen et al., Weingarten et al.), matching the source data's own monthly granularity.",
+    "baseline_window_days": 365,
+    "tau_foreshock": 4.1,
+    "tau_strain": 6.3
+  },
+  "wells": {
+    "years_available": "2011-2024",
+    "source": "Oklahoma Corporation Commission, https://oklahoma.gov/content/dam/ok/en/occ/documents/og/ogdatafiles/{year}-uic-injection-volumes.xlsx -- monthly Vol (bbls) + PSI per well, real API confirmed 2026-07-03 (10429 wells in 2024 file alone). NOT a live feed -- annual batch files, re-check yearly for new-year files.",
+    "aggregation": "sum(monthly Vol) and weighted-mean(monthly PSI, weight=Vol) across all wells within corridor_half_width_km of the reference line, per month."
+  },
+  "etas_lite": {
+    "target_mag": 4.0,
+    "target_mag_comment": "Lower than California transform segments (4.5) -- Oklahoma's induced sequence has abundant M4+ activity (unlike the tectonic segments), 4.0 keeps focus on felt/damaging events while still catching enough volume for real statistics.",
+    "b_value": 1.0,
+    "decluster_ref_mag": 2.5,
+    "omori_c_days": 0.02,
+    "omori_p": 1.1,
+    "alpha": 0.9,
+    "trigger_min_mag": 3.0,
+    "train_end": "2015-01-01",
+    "train_end_comment": "Deliberately keeps BOTH Pawnee (2016) and the post-2016 regulatory-driven decline in the HOLDOUT window -- the single most information-rich period for testing whether F (injection anomaly) actually predicts rate changes, since Oklahoma's own regulators cut injection volumes in direct response to Pawnee, producing a real natural experiment (cause imposed, effect measurable) in the holdout."
+  },
+  "gain": {
+    "log10_min": -1.0,
+    "log10_max": 1.7
+  }
+}

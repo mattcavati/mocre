@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 180" role="img" aria-labelledby="title">
+  <title id="title">Avaltix</title>
+  <defs>
+    <linearGradient id="avx" x1="40" y1="145" x2="330" y2="26" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#2d55d7"/>
+      <stop offset=".42" stop-color="#2d9ee8"/>
+      <stop offset="1" stop-color="#45f2e2"/>
+    </linearGradient>
+  </defs>
+  <rect width="620" height="180" fill="none"/>
+  <path fill="url(#avx)" d="M46 139 113 40c8-12 25-12 33 0l66 99h-45l-14-22H105l-14 22H46Zm78-54h29l-14-23-15 23Z"/>
+  <path fill="url(#avx)" d="M229 99 282 52l29 29-82 75-54-55 28-29 26 27Z"/>
+  <path fill="url(#avx)" d="M296 77 388 22l-64 95c-7 10-22 11-30 2l-22-24 24-18Z" opacity=".9"/>
+  <text x="344" y="118" fill="#eaf5f8" font-family="Inter, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="64" font-weight="720" letter-spacing="-2">Avaltix</text>
+</svg>

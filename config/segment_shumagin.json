@@ -1,0 +1,66 @@
+{
+  "segment_id": "AAK-SHUMAGIN",
+  "name": "Alaska-Aleutian subduction zone, Shumagin segment",
+  "regime": "subduction",
+  "fault_trace": {
+    "comment": "APPROXIMATE, hand-digitized reference line (Alaska Peninsula coast near the Shumagin Islands), NOT survey-grade -- same caveat as Cascadia: no lightweight open trench/slab-geometry service found in this session, proxy uses the onshore coast where GNSS stations and recorded crustal/interface seismicity actually are. Anchors: near Chignik, AK (56.30,-158.40) to near Sand Point, AK (55.34,-160.50). CHOSEN because it ruptured in a real, well-documented M7.8+M7.6 doublet on 2020-07-22/2020-10-19 (broke part of a gap unruptured since 1917) -- unlike Cascadia (locked, no comparable instrumental-era rupture), this segment gives real large target events plus documented along-strike coupling variability (creeping west, coupled east) in the same corridor.",
+    "p1": {
+      "lat": 56.3,
+      "lon": -158.4
+    },
+    "p2": {
+      "lat": 55.34,
+      "lon": -160.5
+    }
+  },
+  "corridor_half_width_km": 100.0,
+  "corridor_comment": "Wider than California segments -- subduction interface seismicity/deformation footprint is broader than a single strike-slip trace, and the 2020 doublet ruptured a multi-segment patch.",
+  "catalog": {
+    "start": "1990-01-01",
+    "min_magnitude": 3.0,
+    "bbox": {
+      "minlat": 53.5,
+      "maxlat": 57.5,
+      "minlon": -163.0,
+      "maxlon": -155.0
+    }
+  },
+  "gnss": {
+    "frame": "NA",
+    "max_dist_km": 150.0,
+    "min_years": 5.0,
+    "fault_azimuth_deg": 60.0,
+    "fault_azimuth_comment": "approximate, roughly WSW-ENE following the Aleutian arc trend in this sector"
+  },
+  "state": {
+    "v_ref_mm_yr": 60.0,
+    "v_ref_comment": "Pacific-North America convergence at the Alaska-Aleutian trench is much faster than Cascadia/California -- placeholder pending real calibration against published coupling models",
+    "T_rec_years": 103.0,
+    "years_since_last_major": 6.0,
+    "recurrence_source": "Shumagin gap: no large (M~7.4+) interface rupture 1917-2020 (103yr gap, motivating decades of 'seismic gap' literature -- Davies et al. 1981 and follow-ups). PARTIALLY RUPTURED 2020-07-22 (M7.8) + 2020-10-19 (M7.6) doublet -- eastern segment broke, western segment reportedly still creeping/less coupled per recent geodetic studies. T_rec/years_since_last here describe the PRE-2020 gap, not a clean post-2020 reset (the doublet did not rupture the whole historical gap) -- treat C_state for this segment as the least clean interpretation of all 4 segments so far, flag explicitly whenever used.",
+    "lambda_A_daily": 0.95,
+    "tau_seismicity": 4.0,
+    "tau_gnss": 7.5,
+    "tau_sse": 10.9,
+    "lambda_K_daily": 0.9,
+    "baseline_window_days": 365,
+    "tau_foreshock": 4.1,
+    "tau_strain": 6.3
+  },
+  "etas_lite": {
+    "target_mag": 5.5,
+    "target_mag_comment": "Higher than California segments -- subduction-zone background rate at M4.5 would be dominated by routine intraslab/outer-rise seismicity unrelated to the interface coupling this segment is meant to characterize; 5.5 keeps focus on interface-relevant events while still catching the 2020 doublet and its aftershock sequence.",
+    "b_value": 1.0,
+    "decluster_ref_mag": 4.0,
+    "omori_c_days": 0.02,
+    "omori_p": 1.1,
+    "alpha": 0.9,
+    "trigger_min_mag": 5.0,
+    "train_end": "2018-01-01",
+    "train_end_comment": "Earlier cutoff than other segments -- deliberately keeps the 2020 doublet + aftershocks in the HOLDOUT window, since that's the one genuinely large, well-documented rupture this segment offers."
+  },
+  "gain": {
+    "log10_min": -1.0,
+    "log10_max": 1.7
+  }
+}

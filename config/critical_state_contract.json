@@ -1,0 +1,18 @@
+{
+  "version": "mocre-critical-v1",
+  "scientific_target": "inferir un estado preparatorio observable antes de un evento objetivo; no predecir por ajuste retrospectivo",
+  "horizon_days": 30,
+  "lead_days": [7, 14, 30],
+  "decluster_days": 45,
+  "control_exclusion_days": 180,
+  "controls_per_event": 3,
+  "promotion": {
+    "min_test_events": 20,
+    "min_episode_auc": 0.70,
+    "min_leave_region_median_auc": 0.60,
+    "max_false_alarm_fraction": 0.05,
+    "min_event_sensitivity": 0.70,
+    "max_time_shift_auc": 0.58
+  },
+  "status": "shadow_until_all_promotion_criteria_pass"
+}

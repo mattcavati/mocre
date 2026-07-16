@@ -1,0 +1,63 @@
+{
+  "segment_id": "CHILE_CENTRAL",
+  "name": "Chile Central (Valpara\u00edso-Santiago)",
+  "regime": "normal",
+  "fault_trace": {
+    "comment": "AUTO-GENERATED from GEM Global Active Faults DB (fault 'Falla Topocalma 002c', slip_type=Normal, net_slip_rate=0.5 mm/yr, length=42km). Lower-confidence than the hand-curated US segments: regime from slip_type, recurrence from slip_rate via Wells&Coppersmith AD scaling (NOT paleoseismology), target_mag from length. V\u00eda A.",
+    "polyline_file": "chile_central_trace.json",
+    "p1": {
+      "lat": -34.4215,
+      "lon": -71.6101
+    },
+    "p2": {
+      "lat": -34.1507,
+      "lon": -71.9302
+    }
+  },
+  "corridor_half_width_km": 40.0,
+  "catalog": {
+    "start": "1990-01-01",
+    "min_magnitude": 2.5,
+    "bbox": {
+      "minlat": -35.62,
+      "maxlat": -32.95,
+      "minlon": -73.13,
+      "maxlon": -70.41
+    }
+  },
+  "gnss": {
+    "frame": "IGS20",
+    "max_dist_km": 80.0,
+    "min_years": 6.0,
+    "fault_azimuth_deg": 315.6,
+    "fault_azimuth_comment": "from GEM fault trace endpoints (auto)"
+  },
+  "state": {
+    "v_ref_mm_yr": 0.5,
+    "v_ref_comment": "= GEM net_slip_rate (auto proxy for GNSS loading rate)",
+    "T_rec_years": 2030.0,
+    "years_since_last_major": 1015.0,
+    "recurrence_source": "AUTO-GENERATED from GEM Global Active Faults DB (fault 'Falla Topocalma 002c', slip_type=Normal, net_slip_rate=0.5 mm/yr, length=42km). Lower-confidence than the hand-curated US segments: regime from slip_type, recurrence from slip_rate via Wells&Coppersmith AD scaling (NOT paleoseismology), target_mag from length. V\u00eda A.",
+    "lambda_A_daily": 0.95,
+    "tau_seismicity": 4.0,
+    "tau_gnss": 7.5,
+    "tau_sse": 10.9,
+    "tau_foreshock": 4.1,
+    "tau_strain": 6.3,
+    "baseline_window_days": 365
+  },
+  "etas_lite": {
+    "target_mag": 5.0,
+    "b_value": 1.0,
+    "decluster_ref_mag": 3.5,
+    "omori_c_days": 0.02,
+    "omori_p": 1.1,
+    "alpha": 0.9,
+    "trigger_min_mag": 4.0,
+    "train_end": "2015-01-01"
+  },
+  "gain": {
+    "log10_min": -1.0,
+    "log10_max": 1.7
+  }
+}

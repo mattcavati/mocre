@@ -1,0 +1,50 @@
+# === Datos y salidas pesadas — regenerables, NO se versionan ===
+# El árbol de datos completo son ~19 GB de descargas públicas (USGS, NGL, InSAR, ECCO2...).
+# Se reconstruye con los scripts de src/ingest_*.py — ver README.
+data/
+out/
+# Artefacto estático construido por deploy/build-public.sh:
+public/
+# Releases locales por marca de tiempo:
+.deploy/
+
+# Host-specific operational hardening notes are maintained outside the public tree
+SECURITY_DEPLOY.md
+deploy/harden-mocre-origin.sh
+
+# === Python ===
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.venv/
+venv/
+env/
+.ipynb_checkpoints/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# === Secretos — nunca, bajo ninguna circunstancia ===
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+secrets/
+credentials*.json
+service-account*.json
+
+# === Sistema / editores ===
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
+
+# === Herramientas de test / navegación ===
+.playwright-mcp/
+*.log

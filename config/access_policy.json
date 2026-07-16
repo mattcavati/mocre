@@ -1,0 +1,10 @@
+{
+  "ui_views_per_minute": 60,
+  "model_queries_per_minute": 12,
+  "exports_per_hour": 3,
+  "contact_messages_per_day": 5,
+  "oauth_provider": "google",
+  "required_google_scopes": ["openid", "email", "profile"],
+  "public_access": "free_with_google_oauth",
+  "session_cookie": "mocre_session"
+}

@@ -1,0 +1,22 @@
+MOCRE-1 — Modelo Cavati de Red de Esfuerzo
+Copyright 2026 Matt Cavati and the MOCRE contributors
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this project except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+The fuzzy-logic method lineage (universes, partitions, IA1->IA2->IA3
+architecture) derives from work by Dr. Cícero Romão Cavati and was first
+put into production in the Avaltix market-forecasting engine (https://avaltix.io).
+
+This software is a research preview. It is NOT an operational earthquake
+early-warning system and MUST NOT be used to make life-safety decisions.
+It estimates how a relative probability shifts against a baseline; it does
+not predict earthquakes. See DISCLAIMER in README.md.
+
+This product includes data derived from public scientific sources, including
+the USGS Comprehensive Catalog (ComCat), the Nevada Geodetic Laboratory (NGL),
+and others credited in the source code and documentation. Those datasets remain
+under their respective terms and are not redistributed in this repository.
